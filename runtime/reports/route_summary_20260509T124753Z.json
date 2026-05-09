@@ -1,0 +1,68 @@
+{
+  "timestamp": "20260509T124753Z",
+  "task": "review architecture drift",
+  "rule": "architecture-review",
+  "executionMode": "proposal",
+  "route": [
+    "SolManager",
+    "SolOSReviewer"
+  ],
+  "dispatch": [
+    {
+      "agent": "SolManager",
+      "role": "orchestrator",
+      "provider": "copilot-cli",
+      "tools": [
+        "planner",
+        "governance",
+        "mcp-router",
+        "self-heal",
+        "self-evolve"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    },
+    {
+      "agent": "SolOSReviewer",
+      "role": "reviewer",
+      "provider": "copilot-cli",
+      "tools": [
+        "regression-check",
+        "risk-scan",
+        "policy-check"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    }
+  ],
+  "execution": [],
+  "preRoute": [
+    {
+      "command": "scripts/validate.sh",
+      "returncode": 0,
+      "stdout": "validation ok",
+      "stderr": ""
+    },
+    {
+      "command": "scripts/check_policy_gate.sh",
+      "returncode": 0,
+      "stdout": "policy gate: proposal mode allowed",
+      "stderr": ""
+    }
+  ],
+  "postRoute": [
+    {
+      "command": "scripts/log_plan.sh",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "planFile": "runtime/plans/plan_20260509T124753Z.md"
+}

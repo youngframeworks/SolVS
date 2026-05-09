@@ -1,0 +1,22 @@
+{
+  "servers": [
+    {
+      "id": "filesystem",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
+    },
+    {
+      "id": "github",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
+    },
+    {
+      "id": "foundry-local",
+      "transport": "http",
+      "url": "http://127.0.0.1:5272/mcp",
+      "acceptedStatus": [200, 404]
+    }
+  ]
+}

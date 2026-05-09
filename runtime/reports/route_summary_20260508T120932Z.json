@@ -1,0 +1,82 @@
+{
+  "timestamp": "20260508T120932Z",
+  "task": "review security hardening",
+  "rule": "architecture-review",
+  "route": [
+    "SolManager",
+    "SolOSReviewer"
+  ],
+  "dispatch": [
+    {
+      "agent": "SolManager",
+      "role": "orchestrator",
+      "provider": "copilot-cli",
+      "tools": [
+        "planner",
+        "governance",
+        "mcp-router",
+        "self-heal",
+        "self-evolve"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    },
+    {
+      "agent": "SolOSReviewer",
+      "role": "reviewer",
+      "provider": "copilot-cli",
+      "tools": [
+        "regression-check",
+        "risk-scan",
+        "policy-check"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    }
+  ],
+  "execution": [
+    {
+      "agent": "SolManager",
+      "provider": "copilot-cli",
+      "returncode": 1,
+      "stdout": "{\"agent\": \"SolManager\", \"provider\": \"copilot-cli\", \"mode\": \"suggest\", \"cli\": \"/home/young/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/copilot\", \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"GitHub Copilot CLI timed out after 20s. Authenticate or configure the CLI for non-interactive use.\"}",
+      "stderr": ""
+    },
+    {
+      "agent": "SolOSReviewer",
+      "provider": "copilot-cli",
+      "returncode": 1,
+      "stdout": "{\"agent\": \"SolOSReviewer\", \"provider\": \"copilot-cli\", \"mode\": \"suggest\", \"cli\": \"/home/young/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/copilot\", \"returncode\": 1, \"stdout\": \"\", \"stderr\": \"GitHub Copilot CLI timed out after 20s. Authenticate or configure the CLI for non-interactive use.\"}",
+      "stderr": ""
+    }
+  ],
+  "preRoute": [
+    {
+      "command": "scripts/validate.sh",
+      "returncode": 0,
+      "stdout": "validation ok",
+      "stderr": ""
+    },
+    {
+      "command": "scripts/check_policy_gate.sh",
+      "returncode": 0,
+      "stdout": "policy gate: ALLOW_AUTONOMY is false; proposal-only loops enforced",
+      "stderr": ""
+    }
+  ],
+  "postRoute": [
+    {
+      "command": "scripts/log_plan.sh",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "planFile": "runtime/plans/plan_20260508T120852Z.md"
+}

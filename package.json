@@ -1,0 +1,26 @@
+{
+  "name": "solvs-agent-fleet",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VS Code multi-agent custom fleet with Foundry local + Copilot CLI style auto-routing",
+  "scripts": {
+    "fleet:route": "python3 scripts/route_task.py --task \"default routing check\"",
+    "fleet:cycle": "python3 scripts/autonomous_cycle.py --task \"run autonomous governance cycle\" --ticks 3",
+    "fleet:cycle:execute": "FLEET_CI_SAFE_MODE=true COPILOT_PLAN_FALLBACK=true python3 scripts/autonomous_cycle.py --task \"run autonomous governance cycle\" --ticks 3 --execute-providers",
+    "fleet:mcp-probe": "python3 scripts/mcp_probe.py",
+    "fleet:provider-probe": "python3 scripts/provider_probe.py",
+    "fleet:copilot-auth": "python3 scripts/copilot_cli_doctor.py --format plain",
+    "fleet:copilot-install-check": "bash scripts/copilot_cli_install_check.sh",
+    "fleet:foundry-bootstrap": "bash scripts/bootstrap_foundry_local.sh --ensure --mock",
+    "fleet:foundry-status": "bash scripts/foundry_local_control.sh status",
+    "fleet:foundry-stop": "bash scripts/foundry_local_control.sh stop",
+    "fleet:foundry-restart": "bash scripts/foundry_local_control.sh restart --mock",
+    "fleet:foundry-logs": "bash scripts/foundry_local_control.sh logs --lines 120",
+    "fleet:self-heal": "python3 scripts/self_heal.py",
+    "fleet:self-evolve": "python3 scripts/self_evolve.py",
+    "fleet:proposal": "python3 scripts/proposal_pack.py --title \"Manual Proposal\" --task \"manual review\"",
+    "fleet:proposal:badges": "python3 scripts/provider_badges.py --proposal runtime/reports/proposal_latest.md",
+    "fleet:execute": "python3 scripts/route_task.py --task \"review security hardening\" --execute --write-summary",
+    "fleet:validate": "bash scripts/validate.sh"
+  }
+}

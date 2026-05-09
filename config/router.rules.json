@@ -1,0 +1,30 @@
+{
+  "rules": [
+    {
+      "id": "architecture-review",
+      "matchAny": ["architecture", "drift", "governance", "review"],
+      "route": ["SolManager", "SolOSReviewer"]
+    },
+    {
+      "id": "feature-implementation",
+      "matchAny": ["feature", "implement", "build", "create"],
+      "route": ["SolOSRouter", "SolOSImplementer", "SolOSReviewer"]
+    },
+    {
+      "id": "ops-or-runtime",
+      "matchAny": ["runtime", "sysops", "deploy", "health", "diagnostic"],
+      "route": ["SolOSRouter", "SolOSSysOps", "SolOSReviewer"]
+    },
+    {
+      "id": "self-heal",
+      "matchAny": ["self-heal", "heal", "fix drift", "repair"],
+      "route": ["SolManager"]
+    },
+    {
+      "id": "self-evolve",
+      "matchAny": ["self-evolve", "evolve", "optimize prompts", "improve workflow"],
+      "route": ["SolManager"]
+    }
+  ],
+  "fallbackRoute": ["SolOSRouter", "SolOSImplementer", "SolOSReviewer"]
+}

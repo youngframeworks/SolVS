@@ -1,0 +1,97 @@
+name: Autonomous Proposals
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: Task for the autonomous fleet
+        required: true
+        default: review governance drift and generate proposal
+      ticks:
+        description: Number of cycle ticks
+        required: true
+        default: "3"
+      execute_providers:
+        description: Execute provider adapters during route ticks
+        required: true
+        default: "false"
+  schedule:
+    - cron: "0 */6 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  autonomous-proposal:
+    runs-on: ubuntu-latest
+    env:
+      FLEET_CI_SAFE_MODE: "true"
+      COPILOT_PLAN_FALLBACK: "true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate scaffold
+        run: bash scripts/validate.sh
+
+      - name: Probe MCP servers
+        run: python3 scripts/mcp_probe.py
+        continue-on-error: true
+
+      - name: Probe providers in CI-safe mode
+        run: python3 scripts/provider_probe.py
+        continue-on-error: true
+
+      - name: Copilot CLI Doctor
+        id: copilot_doctor
+        run: python3 scripts/copilot_cli_doctor.py --format github
+        continue-on-error: true
+
+      - name: Run autonomous cycle
+        run: |
+          execute_flag=""
+          if [[ "${{ github.event.inputs.execute_providers || 'false' }}" == "true" ]]; then
+            execute_flag="--execute-providers"
+          fi
+          python3 scripts/autonomous_cycle.py \
+            --task "${{ github.event.inputs.task || 'review governance drift and generate proposal' }}" \
+            --ticks "${{ github.event.inputs.ticks || '3' }}" \
+            --proposal-title "Scheduled Governance Proposal" \
+            $execute_flag
+
+      - name: Upload runtime artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: autonomous-proposal-artifacts
+          path: |
+            runtime/plans/*
+            runtime/reports/*
+
+      - name: Commit runtime artifacts
+        run: |
+          if git diff --quiet -- runtime; then
+            echo "No runtime changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add runtime
+          git commit -m "chore(fleet): refresh autonomous proposal artifacts"
+
+      - name: Create proposal pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: chore(fleet): refresh autonomous proposal artifacts
+          branch: automation/autonomous-proposal
+          title: "chore(fleet): autonomous proposal artifacts"
+          body-path: runtime/reports/proposal_latest.md
+          add-paths: |
+            runtime/plans
+            runtime/reports
+          delete-branch: true

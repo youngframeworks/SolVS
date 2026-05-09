@@ -1,0 +1,103 @@
+{
+  "timestamp": "20260508T122447Z",
+  "task": "scheduled provider exercise",
+  "rule": "fallback",
+  "route": [
+    "SolOSRouter",
+    "SolOSImplementer",
+    "SolOSReviewer"
+  ],
+  "dispatch": [
+    {
+      "agent": "SolOSRouter",
+      "role": "router",
+      "provider": "copilot-cli",
+      "tools": [
+        "intent-classifier",
+        "fleet-router",
+        "mcp-router"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    },
+    {
+      "agent": "SolOSImplementer",
+      "role": "implementer",
+      "provider": "foundry-local",
+      "tools": [
+        "patcher",
+        "repo-reader",
+        "validator"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    },
+    {
+      "agent": "SolOSReviewer",
+      "role": "reviewer",
+      "provider": "copilot-cli",
+      "tools": [
+        "regression-check",
+        "risk-scan",
+        "policy-check"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    }
+  ],
+  "execution": [
+    {
+      "agent": "SolOSRouter",
+      "provider": "copilot-cli",
+      "returncode": 0,
+      "stdout": "{\"agent\": \"SolOSRouter\", \"provider\": \"copilot-cli\", \"mode\": \"suggest\", \"cli\": \"/home/young/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/copilot\", \"returncode\": 0, \"stdout\": \"{\\\"status\\\": \\\"fallback\\\", \\\"fallback\\\": \\\"plan-only\\\", \\\"reason\\\": \\\"GitHub Copilot CLI timed out after 20s. Authenticate or configure the CLI for non-interactive use.\\\", \\\"cli\\\": \\\"/home/young/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/copilot\\\", \\\"mode\\\": \\\"suggest\\\"}\", \"stderr\": \"\"}",
+      "stderr": ""
+    },
+    {
+      "agent": "SolOSImplementer",
+      "provider": "foundry-local",
+      "returncode": 0,
+      "stdout": "{\"agent\": \"SolOSImplementer\", \"provider\": \"foundry-local\", \"endpoint\": \"http://127.0.0.1:5272\", \"task\": \"scheduled provider exercise\", \"returncode\": 0, \"stdout\": \"{\\\"url\\\": \\\"http://127.0.0.1:5272/health\\\", \\\"status\\\": 200}\", \"stderr\": \"\"}",
+      "stderr": ""
+    },
+    {
+      "agent": "SolOSReviewer",
+      "provider": "copilot-cli",
+      "returncode": 0,
+      "stdout": "{\"agent\": \"SolOSReviewer\", \"provider\": \"copilot-cli\", \"mode\": \"suggest\", \"cli\": \"/home/young/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/copilot\", \"returncode\": 0, \"stdout\": \"{\\\"status\\\": \\\"fallback\\\", \\\"fallback\\\": \\\"plan-only\\\", \\\"reason\\\": \\\"GitHub Copilot CLI timed out after 20s. Authenticate or configure the CLI for non-interactive use.\\\", \\\"cli\\\": \\\"/home/young/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/copilot\\\", \\\"mode\\\": \\\"suggest\\\"}\", \"stderr\": \"\"}",
+      "stderr": ""
+    }
+  ],
+  "preRoute": [
+    {
+      "command": "scripts/validate.sh",
+      "returncode": 0,
+      "stdout": "validation ok",
+      "stderr": ""
+    },
+    {
+      "command": "scripts/check_policy_gate.sh",
+      "returncode": 0,
+      "stdout": "policy gate: ALLOW_AUTONOMY is false; proposal-only loops enforced",
+      "stderr": ""
+    }
+  ],
+  "postRoute": [
+    {
+      "command": "scripts/log_plan.sh",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "planFile": "runtime/plans/plan_20260508T122407Z.md"
+}

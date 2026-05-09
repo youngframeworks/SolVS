@@ -1,0 +1,109 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Fleet: Route Task",
+      "type": "shell",
+      "command": "python3 scripts/route_task.py --task \"route this workspace task\""
+    },
+    {
+      "label": "Fleet: Autonomous Cycle",
+      "type": "shell",
+      "command": "python3 scripts/autonomous_cycle.py --task \"run autonomous cycle\" --ticks 3"
+    },
+    {
+      "label": "Fleet: Autonomous Cycle (Execute Providers)",
+      "type": "shell",
+      "command": "FLEET_CI_SAFE_MODE=true COPILOT_PLAN_FALLBACK=true python3 scripts/autonomous_cycle.py --task \"run autonomous cycle\" --ticks 3 --execute-providers"
+    },
+    {
+      "label": "Fleet: MCP Probe",
+      "type": "shell",
+      "command": "python3 scripts/mcp_probe.py"
+    },
+    {
+      "label": "Fleet: Provider Probe",
+      "type": "shell",
+      "command": "python3 scripts/provider_probe.py"
+    },
+    {
+      "label": "Fleet: Copilot Auth Check",
+      "type": "shell",
+      "command": "python3 scripts/copilot_cli_doctor.py --format plain"
+    },
+    {
+      "label": "Fleet: Copilot Install Check",
+      "type": "shell",
+      "command": "bash scripts/copilot_cli_install_check.sh"
+    },
+    {
+      "label": "Fleet: Bootstrap Foundry Local",
+      "type": "shell",
+      "command": "bash scripts/foundry_local_quick_start.sh"
+    },
+    {
+      "label": "Fleet: Foundry Status",
+      "type": "shell",
+      "command": "bash scripts/foundry_local_status_wrapper.sh"
+    },
+    {
+      "label": "Fleet: Foundry Stop",
+      "type": "shell",
+      "command": "bash scripts/foundry_local_stop_wrapper.sh"
+    },
+    {
+      "label": "Fleet: Install Qwen Autostart",
+      "type": "shell",
+      "command": "bash scripts/foundry_local_autostart_install.sh"
+    },
+    {
+      "label": "Fleet: Remove Qwen Autostart",
+      "type": "shell",
+      "command": "bash scripts/foundry_local_autostart_uninstall.sh"
+    },
+    {
+      "label": "Fleet: Foundry Restart (Mock)",
+      "type": "shell",
+      "command": "bash scripts/foundry_local_control.sh restart --mock"
+    },
+    {
+      "label": "Fleet: Foundry Logs",
+      "type": "shell",
+      "command": "bash scripts/foundry_local_control.sh logs --lines 120"
+    },
+    {
+      "label": "Fleet: Self Heal (proposal)",
+      "type": "shell",
+      "command": "python3 scripts/self_heal.py"
+    },
+    {
+      "label": "Fleet: Self Evolve (proposal)",
+      "type": "shell",
+      "command": "python3 scripts/self_evolve.py"
+    },
+    {
+      "label": "Fleet: Validate",
+      "type": "shell",
+      "command": "bash scripts/validate.sh",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Fleet: Build Proposal Pack",
+      "type": "shell",
+      "command": "python3 scripts/proposal_pack.py --title \"Manual Proposal\" --task \"manual review\""
+    },
+    {
+      "label": "Fleet: Refresh Provider Badges",
+      "type": "shell",
+      "command": "python3 scripts/provider_badges.py --proposal runtime/reports/proposal_latest.md"
+    },
+    {
+      "label": "Fleet: Route And Execute",
+      "type": "shell",
+      "command": "python3 scripts/route_task.py --task \"review security hardening\" --execute --write-summary"
+    }
+  ]
+}

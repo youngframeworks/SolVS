@@ -1,0 +1,80 @@
+{
+  "timestamp": "20260508T115741Z",
+  "task": "generate scheduled proposal",
+  "rule": "fallback",
+  "route": [
+    "SolOSRouter",
+    "SolOSImplementer",
+    "SolOSReviewer"
+  ],
+  "dispatch": [
+    {
+      "agent": "SolOSRouter",
+      "role": "router",
+      "provider": "copilot-cli",
+      "tools": [
+        "intent-classifier",
+        "fleet-router",
+        "mcp-router"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    },
+    {
+      "agent": "SolOSImplementer",
+      "role": "implementer",
+      "provider": "foundry-local",
+      "tools": [
+        "patcher",
+        "repo-reader",
+        "validator"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    },
+    {
+      "agent": "SolOSReviewer",
+      "role": "reviewer",
+      "provider": "copilot-cli",
+      "tools": [
+        "regression-check",
+        "risk-scan",
+        "policy-check"
+      ],
+      "mcpServers": [
+        "filesystem",
+        "github",
+        "foundry-local"
+      ]
+    }
+  ],
+  "preRoute": [
+    {
+      "command": "scripts/validate.sh",
+      "returncode": 0,
+      "stdout": "validation ok",
+      "stderr": ""
+    },
+    {
+      "command": "scripts/check_policy_gate.sh",
+      "returncode": 0,
+      "stdout": "policy gate: ALLOW_AUTONOMY is false; proposal-only loops enforced",
+      "stderr": ""
+    }
+  ],
+  "postRoute": [
+    {
+      "command": "scripts/log_plan.sh",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "planFile": "runtime/plans/plan_20260508T115741Z.md"
+}

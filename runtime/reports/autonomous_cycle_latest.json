@@ -1,0 +1,13 @@
+{
+  "task": "scheduled provider exercise",
+  "ticks": 1,
+  "executeProviders": true,
+  "results": [
+    {
+      "tick": 1,
+      "routeReturnCode": 0,
+      "providerExecution": "enabled"
+    }
+  ],
+  "proposalFile": "runtime/reports/proposal_latest.md"
+}
