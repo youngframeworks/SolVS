@@ -1,6 +1,14 @@
 {
   "fleetVersion": "0.1.0",
-  "defaultProvider": "copilot-cli",
+    "defaultProvider": "foundry-local",
+    "autonomyMode": "enabled",
+    "autoSelfHeal": true,
+    "autoSelfEvolve": true,
+    "governance": {
+      "requireGate": "ALLOW_AUTONOMY",
+      "atomicExecute": true,
+      "auditLog": "OS_EVOLUTION_LOG.md"
+    },
   "providers": {
     "copilot-cli": {
       "kind": "foundry-local",
@@ -25,13 +33,13 @@
     {
       "id": "SolManager",
       "role": "orchestrator",
-      "provider": "copilot-cli",
+      "provider": "foundry-local",
       "tools": ["planner", "governance", "mcp-router", "self-heal", "self-evolve"]
     },
     {
       "id": "SolOSRouter",
       "role": "router",
-      "provider": "copilot-cli",
+      "provider": "foundry-local",
       "tools": ["intent-classifier", "fleet-router", "mcp-router"]
     },
     {
@@ -49,7 +57,7 @@
     {
       "id": "SolOSReviewer",
       "role": "reviewer",
-      "provider": "copilot-cli",
+      "provider": "foundry-local",
       "tools": ["regression-check", "risk-scan", "policy-check"]
     }
   ]
