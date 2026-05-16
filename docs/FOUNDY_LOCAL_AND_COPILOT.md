@@ -2,10 +2,12 @@
 
 ## Providers
 
-The fleet uses two execution providers:
+The fleet uses multiple execution providers. Current routing defaults:
 
-- `copilot-cli`: implemented via `gh copilot`
-- `foundry-local`: implemented via local HTTP endpoint probing and routing
+- `qwen-fast`: Foundry Local (qwen3.5-2b) — fast small tasks and short queries
+- `qwen-coder`: Foundry Local (qwen2.5-coder-7b) — coding, generation, edits
+- `copilot-pro`: Copilot Pro — complex planning, multi-step orchestration (fallback)
+- `copilot-cli`: routes to Foundry Local by default and falls back to `copilot-pro` for complex tasks
 
 ## Local setup
 
