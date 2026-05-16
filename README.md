@@ -98,9 +98,10 @@ User Task
 
 | Provider | Role | Backend | Model | Rate Limit |
 |---|---|---|---|---|
-| **foundry-local** | All agents | HTTP localhost:5272 | Qwen 3.5 2B | ✅ None |
+| **qwen-fast** | Fast small tasks | Foundry Local | qwen3.5-2b | ✅ Low-latency |
+| **qwen-coder** | Coding tasks | Foundry Local | qwen2.5-coder-7b | ✅ Code-specialized |
+| **copilot-pro** | Complex planning | External Copilot Pro | copilot-pro | ✅ High-capability fallback |
 | **mcp** | Tools (optional) | Stdio | GitHub, Filesystem | ✅ Unlimited |
-| **copilot-cli** | Fallback | Routes to Foundry Local | Qwen 3.5 2B | ✅ None |
 
 **Key Advantage:** **Zero GitHub rate limits**. Unlimited local inference for autonomous cycles.
 
@@ -132,6 +133,23 @@ solvs-agent-fleet/
 ```bash
 python3 scripts/route_task.py --task "implement feature X"
 # Output: runtime/plans/task_routing_TIMESTAMP.json
+```
+
+### Clean Foundry model cache
+
+Keep only `qwen3.5-2b` and `qwen2.5-coder-7b` cached locally:
+
+```bash
+python3 scripts/clean_model_cache.py --keep qwen3.5-2b qwen2.5-coder-7b
+```
+
+### Compare models (performance & quality)
+
+Run the comparison harness that saves JSON/CSV reports:
+
+```bash
+python3 scripts/compare_models.py --model qwen3.5-2b --trials 5
+python3 scripts/compare_models.py --model qwen2.5-coder-7b --trials 5
 ```
 
 ### Execute (Local + Auto-Heal)

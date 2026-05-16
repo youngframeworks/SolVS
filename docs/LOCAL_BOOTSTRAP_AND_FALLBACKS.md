@@ -43,6 +43,14 @@ bash scripts/foundry_local_control.sh stop
 bash scripts/foundry_local_control.sh start --mock
 bash scripts/foundry_local_control.sh restart --mock
 bash scripts/foundry_local_control.sh logs --lines 120
+
+### Cleaning cached models
+
+After updating provider defaults you may want to remove unneeded model variants from the local cache. Use the helper script to keep only the models you need:
+
+```bash
+python3 scripts/clean_model_cache.py --keep qwen3.5-2b qwen2.5-coder-7b
+```
 ```
 
 ## Copilot CLI auth check
