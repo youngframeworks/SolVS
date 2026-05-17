@@ -18,6 +18,9 @@ fi
 export FOUNDRY_LOCAL_MODEL
 
 COPILOT_BIN="${COPILOT_CLI_BIN:-$(command -v copilot || true)}"
+# Prefer foundry-local backend for interactive sessions
+export COPILOT_CLI_BACKEND="foundry-local"
+export COPILOT_CLI_BIN="$COPILOT_BIN"
 if [ -z "$COPILOT_BIN" ]; then
   echo "Copilot CLI binary not found. Install it or set COPILOT_CLI_BIN." >&2
   exit 1
