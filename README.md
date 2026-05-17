@@ -66,6 +66,13 @@ python3 scripts/provider_probe.py
 # Expected: All providers green ✓ (all local)
 ```
 
+# Run via wrapper (recommended)
+
+```bash
+# Ensures Qwen model and endpoint are used by default
+bash scripts/run_task_on_qwen.sh --task "analyze code quality"
+```
+
 ---
 
 ## 🏗️ Architecture (100% Local)
@@ -134,16 +141,24 @@ python3 scripts/route_task.py --task "implement feature X"
 # Output: runtime/plans/task_routing_TIMESTAMP.json
 ```
 
-### Execute (Local + Auto-Heal)
+### Run Task (Wrapper — ensures Qwen)
 ```bash
-ALLOW_AUTONOMY=true python3 scripts/route_task.py --task "implement feature X" --execute
+# Wrapper enforces FOUNDRY_LOCAL_MODEL=qwen3.5-2b and endpoint defaults
+bash scripts/run_task_on_qwen.sh --task "implement feature X"
+```
+
+### Execute (Local + Auto-Heal — requires approval token)
+```bash
+# To execute provider actions you must provide an approval token and enable autonomy
+AUTONOMY_APPROVAL_TOKEN=YOUR_TOKEN ALLOW_AUTONOMY=true python3 scripts/route_task.py --task "implement feature X" --execute
 # Output: runtime/reports/execution_summary_TIMESTAMP.json
 # Logged: OS_EVOLUTION_LOG.md
 ```
 
-### Autonomous Cycle (Multi-Tick Improvement)
+### Autonomous Cycle (Multi-Tick Improvement — provider execution requires token)
 ```bash
-ALLOW_AUTONOMY=true python3 scripts/autonomous_cycle.py --task "apply policies" --ticks 3
+# Run autonomous cycle with provider execution; requires AUTONOMY_APPROVAL_TOKEN
+AUTONOMY_APPROVAL_TOKEN=YOUR_TOKEN ALLOW_AUTONOMY=true python3 scripts/autonomous_cycle.py --task "apply policies" --ticks 3 --execute-providers
 # Tick 1: Plan → Implement → Validate
 # Tick 2: Auto-heal detected drift
 # Tick 3: Auto-evolve prompts for improvements
@@ -151,14 +166,14 @@ ALLOW_AUTONOMY=true python3 scripts/autonomous_cycle.py --task "apply policies" 
 
 ### Self-Healing (Automatic)
 ```bash
-# Now automatic! Set autoSelfHeal: true in config/fleet.json
+# Auto self-heal can run during cycles; provider execution requires token
 python3 scripts/self_heal.py --auto
 # Detects and proposes fixes on each cycle
 ```
 
 ### Self-Evolving (Automatic)
 ```bash
-# Now automatic! Set autoSelfEvolve: true in config/fleet.json
+# Auto self-evolve can run during cycles; provider execution requires token
 python3 scripts/self_evolve.py --auto
 # Continuously improves agent instructions and workflows
 ```
@@ -171,13 +186,17 @@ Open this folder in VS Code. All tasks available in Command Palette:
 
 **Execution:**
 - **Fleet: Route Task** — Plan without execute
-- **Fleet: Route And Execute** — Execute with gate
+- **Fleet: Route And Execute** — Execute with gate (requires approval token when executing providers)
 - **Fleet: Autonomous Cycle** — Multi-tick with auto-heal/evolve
 
 **Diagnostics:**
 - **Fleet: Provider Probe** — Check all providers (local only)
 - **Fleet: MCP Probe** — Check MCP servers
 - **Fleet: Foundry Status** — Check local model health
+- **Fleet: Qwen Status** — Quick Foundry/Qwen health check (runs scripts/vscode_qwen_status.sh)
+
+**VS Code Shortcut:**
+- **Run task on Qwen Foundry** — uses scripts/run_task_on_qwen.sh (prompted input)
 
 **Governance:**
 - **Fleet: Self Heal (Auto)** — Auto-detect and propose fixes
@@ -255,9 +274,11 @@ ALLOW_AUTONOMY=true python3 scripts/autonomous_cycle.py --task "governance audit
 # ❌ Blocked (safe default)
 python3 scripts/route_task.py --task "..." --execute
 
-# ✅ Allowed (explicit approval)
-ALLOW_AUTONOMY=true python3 scripts/route_task.py --task "..." --execute
+# ✅ Allowed (explicit approval with token)
+AUTONOMY_APPROVAL_TOKEN=YOUR_TOKEN ALLOW_AUTONOMY=true python3 scripts/route_task.py --task "..." --execute
 ```
+
+Important: Do NOT commit approval tokens into the repository. Store tokens in a secure secret manager or environment, and rotate frequently.
 
 ### Atomic & Reversible
 - All changes: all-or-nothing
@@ -352,4 +373,4 @@ MIT — See LICENSE file for details
 **Status:** Production-Ready (v3.3 — Local-First, Auto-Healing)  
 **Default Provider:** 🟢 Foundry Local (Qwen 3.5 2B)  
 **Rate Limits:** ✅ None (100% local inference)  
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-17
