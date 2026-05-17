@@ -1,6 +1,7 @@
 {
   "fleetVersion": "0.1.0",
     "defaultProvider": "foundry-local",
+    "defaultAgent": "SolManager",
     "autonomyMode": "enabled",
     "autoSelfHeal": true,
     "autoSelfEvolve": true,
