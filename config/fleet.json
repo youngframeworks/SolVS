@@ -1,6 +1,7 @@
 {
   "fleetVersion": "0.1.0",
     "defaultProvider": "foundry-local",
+    "defaultAgent": "SolManager",
     "autonomyMode": "enabled",
     "autoSelfHeal": true,
     "autoSelfEvolve": true,
@@ -16,17 +17,42 @@
       "model": "qwen3.5-2b",
       "adapter": "python3 scripts/copilot_cli_adapter.py",
       "mode": "auto",
-      "fallback": "plan-only",
+      "fallback": "copilot-pro",
       "wrapperHint": "Routes Copilot-style orchestration through Foundry Local Qwen by default"
     },
     "foundry-local": {
       "kind": "foundry-local",
-      "model": "qwen3.5-2b",
+        "model": "qwen3.5-2b",
       "adapter": "python3 scripts/foundry_local_adapter.py",
       "endpointEnv": "FOUNDRY_LOCAL_ENDPOINT",
       "defaultEndpoint": "http://127.0.0.1:5272",
       "bootstrapCommandEnv": "FOUNDRY_LOCAL_START_CMD",
-      "launcher": "python3 scripts/foundry_local_sdk_launcher.py serve --model qwen3.5-2b"
+        "launcher": "python3 scripts/foundry_local_sdk_launcher.py serve --model qwen3.5-2b"
+    }
+    ,
+    "qwen-fast": {
+      "kind": "foundry-local",
+      "backend": "foundry-local",
+      "model": "qwen3.5-2b",
+      "adapter": "python3 scripts/foundry_local_adapter.py",
+      "mode": "low-latency",
+      "wrapperHint": "Optimized small/fast tasks"
+    },
+    "qwen-coder": {
+      "kind": "foundry-local",
+      "backend": "foundry-local",
+      "model": "qwen2.5-coder-7b",
+      "adapter": "python3 scripts/foundry_local_adapter.py",
+      "mode": "code-specialized",
+      "wrapperHint": "Model specialized for code generation and editing"
+    },
+    "copilot-pro": {
+      "kind": "copilot",
+      "backend": "copilot-pro",
+      "model": "copilot-pro",
+      "adapter": "python3 scripts/copilot_pro_adapter.py",
+      "mode": "high-capability",
+      "wrapperHint": "External Copilot Pro for complex planning and autonomy"
     }
   },
   "agents": [
@@ -59,6 +85,31 @@
       "role": "reviewer",
       "provider": "foundry-local",
       "tools": ["regression-check", "risk-scan", "policy-check"]
+    }
+    ,
+    {
+      "id": "QuickTasksAgent",
+      "role": "quick",
+      "provider": "qwen-fast",
+      "tools": ["simple-responder"]
+    },
+    {
+      "id": "CodingAgent",
+      "role": "coder",
+      "provider": "qwen-coder",
+      "tools": ["code-gen", "unit-test", "lint"]
+    },
+    {
+      "id": "CopilotProAgent",
+      "role": "complex",
+      "provider": "copilot-pro",
+      "tools": ["planner", "executor", "optimizer"]
+    },
+    {
+      "id": "Fleet",
+      "role": "router",
+      "provider": "foundry-local",
+      "tools": ["fleet-router", "executor"]
     }
   ]
 }
