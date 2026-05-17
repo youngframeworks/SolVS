@@ -7,6 +7,13 @@
       "command": "python3 scripts/route_task.py --task \"route this workspace task\""
     },
     {
+      "label": "Run task on Qwen Foundry",
+      "type": "shell",
+      "command": "bash",
+      "args": ["${workspaceFolder}/scripts/run_task_on_qwen.sh", "--task", "${input:taskName}"],
+      "problemMatcher": []
+    },
+    {
       "label": "Fleet: Autonomous Cycle",
       "type": "shell",
       "command": "python3 scripts/autonomous_cycle.py --task \"run autonomous cycle\" --ticks 3"
@@ -104,6 +111,13 @@
       "label": "Fleet: Route And Execute",
       "type": "shell",
       "command": "python3 scripts/route_task.py --task \"review security hardening\" --execute --write-summary"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "taskName",
+      "type": "promptString",
+      "description": "Enter task name to route to SolManager/Fleet"
     }
   ]
 }

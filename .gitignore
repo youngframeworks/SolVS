@@ -5,3 +5,4 @@ __pycache__/
 runtime/logs/*.log
 runtime/reports/*.tmp
 .DS_Store
+runtime/
