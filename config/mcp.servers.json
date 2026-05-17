@@ -1,4 +1,5 @@
 {
+  "_readme": "Override Foundry Local endpoint with env var FOUNDRY_LOCAL_ENDPOINT, e.g. FOUNDRY_LOCAL_ENDPOINT=http://host:5272",
   "servers": [
     {
       "id": "filesystem",
@@ -15,7 +16,7 @@
     {
       "id": "foundry-local",
       "transport": "http",
-      "url": "http://127.0.0.1:5272/mcp",
+      "url": "${FOUNDRY_LOCAL_ENDPOINT:-http://127.0.0.1:5272}",
       "acceptedStatus": [200, 404]
     }
   ]
