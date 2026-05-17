@@ -17,6 +17,14 @@ fi
 : "${FOUNDRY_LOCAL_MODEL:=qwen3.5-2b}"
 export FOUNDRY_LOCAL_MODEL
 
+# Default agent used by adapter/automation when not explicitly provided
+: "${COPILOT_AGENT:=SolManager}"
+export COPILOT_AGENT
+
+# Default CLI mode
+: "${COPILOT_CLI_MODE:=auto}"
+export COPILOT_CLI_MODE
+
 COPILOT_BIN="${COPILOT_CLI_BIN:-$(command -v copilot || true)}"
 # Prefer foundry-local backend for interactive sessions
 export COPILOT_CLI_BACKEND="foundry-local"
