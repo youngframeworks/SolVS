@@ -111,6 +111,12 @@
       "label": "Fleet: Route And Execute",
       "type": "shell",
       "command": "python3 scripts/route_task.py --task \"review security hardening\" --execute --write-summary"
+    },
+    {
+      "label": "Fleet: Qwen Status",
+      "type": "shell",
+      "command": "bash scripts/vscode_qwen_status.sh",
+      "problemMatcher": []
     }
   ],
   "inputs": [

@@ -1,6 +1,21 @@
 {
   "rules": [
     {
+      "id": "quick-tasks",
+      "matchAny": ["quick", "small", "fast", "short", "trivial"],
+      "route": ["QuickTasksAgent"]
+    },
+    {
+      "id": "coding-tasks",
+      "matchAny": ["code", "implement", "refactor", "bug", "feature", "unit test"],
+      "route": ["CodingAgent"]
+    },
+    {
+      "id": "complex-tasks",
+      "matchAny": ["architecture", "complex", "research", "design", "strategy", "optimize"],
+      "route": ["CopilotProAgent"]
+    },
+    {
       "id": "architecture-review",
       "matchAny": ["architecture", "drift", "governance", "review"],
       "route": ["SolManager", "SolOSReviewer"]

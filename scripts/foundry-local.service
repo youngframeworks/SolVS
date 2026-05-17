@@ -1,0 +1,16 @@
+[Unit]
+Description=Foundry Local (SolVS)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/young/SolVS
+EnvironmentFile=/home/young/SolVS/.env
+ExecStart=/usr/bin/env bash -lc "python3 scripts/foundry_local_sdk_launcher.py serve --model ${FOUNDRY_LOCAL_MODEL:-qwen3.5-2b}"
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/home/young/SolVS/runtime/logs/foundry-local-sdk.log
+StandardError=append:/home/young/SolVS/runtime/logs/foundry-local-sdk.log
+
+[Install]
+WantedBy=multi-user.target

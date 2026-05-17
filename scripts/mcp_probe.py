@@ -35,13 +35,26 @@ def probe_server(server: dict) -> dict:
     transport = server.get("transport")
     if transport == "stdio":
         command = server.get("command", "")
-        resolved = shutil.which(command)
+        # If command contains args (e.g. 'npx'), pick the executable
+        exe = command.split()[0] if isinstance(command, str) and command else command
+        resolved = shutil.which(exe) if exe else None
         if resolved:
             result["status"] = "ok"
             result["detail"] = resolved
         else:
+            # Provide actionable guidance for common missing tools
+            if exe in ("npx", "npm"):
+                hint = (
+                    "npx not found in PATH. Install Node.js/npm or ensure npx is available. "
+                    "Example (Debian/Ubuntu): 'sudo apt install -y nodejs npm' or 'sudo npm install -g npm'. "
+                    "If using Node 18+, 'npx' is shipped with npm; ensure your PATH includes npm binaries."
+                )
+            elif exe:
+                hint = f"command not found: {exe}. Ensure it is installed and available in PATH."
+            else:
+                hint = "no command configured for stdio transport"
             result["status"] = "error"
-            result["detail"] = f"command not found: {command}"
+            result["detail"] = hint
         return result
 
     if transport == "http":

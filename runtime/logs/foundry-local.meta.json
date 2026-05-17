@@ -1,7 +1,7 @@
 {
-  "mode": "sdk",
+  "mode": "command",
   "endpoint": "http://127.0.0.1:5272",
-  "model": "qwen3.5-2b",
-  "pidFile": "/home/young/SolVS/solvs-agent-fleet/runtime/logs/foundry-local.pid",
-  "logFile": "/home/young/SolVS/solvs-agent-fleet/runtime/logs/foundry-local.log"
+  "startCommand": "PYTHONPATH=\"/home/young/.local/lib/python3.13/site-packages:$PYTHONPATH\" python3 \"/home/young/SolVS/scripts/foundry_local_sdk_launcher.py\" serve --model qwen3.5-2b",
+  "pidFile": "/home/young/SolVS/runtime/logs/foundry-local.pid",
+  "logFile": "/home/young/SolVS/runtime/logs/foundry-local.log"
 }

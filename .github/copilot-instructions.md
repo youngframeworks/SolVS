@@ -97,6 +97,17 @@ If you'd like, Copilot can add example lint/test CI steps or expand the "Files t
 
 - VSCode: a provided .vscode/tasks.json adds a "Run task on Qwen Foundry" task which prompts for a task name and runs the wrapper script. This routes the job through SolManager/Fleet using the configured default provider.
 
-- Autonomy: ALLOW_AUTONOMY defaults to false. To enable autonomous apply you must explicitly set ALLOW_AUTONOMY=true and follow the governance approval/token flow. Do NOT enable without explicit approval and auditing in OS_EVOLUTION_LOG.md.
+- Autonomy: ALLOW_AUTONOMY defaults to false. To enable autonomous apply you must explicitly set ALLOW_AUTONOMY=true AND provide a governance approval token via the AUTONOMY_APPROVAL_TOKEN environment variable. The autonomous execution path (--execute-providers) will refuse to run unless both conditions are met. This ensures an auditable, operator-approved gating for any script-driven changes. Do NOT enable without explicit approval and auditing in OS_EVOLUTION_LOG.md.
+
+Example: enable the gate and run an autonomous cycle (execute providers) with an approval token in your shell session:
+
+```bash
+export ALLOW_AUTONOMY=true
+export AUTONOMY_APPROVAL_TOKEN="approval-EXAMPLE-123"
+python3 scripts/autonomous_cycle.py --task "apply runtime fix" --ticks 3 --execute-providers
+```
+
+Scripts will exit with a non-zero code and print an explanatory error if the gate or token is missing. The governance token is used only to record that an approval was provided; do not commit tokens to source control.
+
 
 

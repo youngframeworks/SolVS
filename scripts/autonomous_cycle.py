@@ -66,6 +66,20 @@ def main():
         help="Title for generated PR-ready proposal",
     )
     args = parser.parse_args()
+
+    # Governance gate: require explicit environment enablement AND an approval token to run provider execution
+    allow_autonomy = os.environ.get("ALLOW_AUTONOMY", "false").lower() in ("1", "true", "yes")
+    if args.execute_providers:
+        approval_token = os.environ.get("AUTONOMY_APPROVAL_TOKEN", "")
+        if not allow_autonomy:
+            print("ERROR: Autonomous execution is disabled. Set ALLOW_AUTONOMY=true to enable provider execution.")
+            raise SystemExit(2)
+        if not approval_token:
+            print("ERROR: AUTONOMY_APPROVAL_TOKEN is not set. Provide a governance approval token to proceed with --execute-providers.")
+            raise SystemExit(3)
+        # Governance log entry
+        print("[Governance] AUTONOMY_APPROVAL_TOKEN present and ALLOW_AUTONOMY=true — allowing provider execution.")
+
     os.environ["FLEET_EXECUTION_MODE"] = "execute" if args.execute_providers else "proposal"
 
     # Load auto self-heal/evolve flags from config

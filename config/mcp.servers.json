@@ -16,7 +16,7 @@
     {
       "id": "foundry-local",
       "transport": "http",
-      "url": "${FOUNDRY_LOCAL_ENDPOINT:-http://127.0.0.1:5272}",
+      "url": "http://127.0.0.1:5272",
       "acceptedStatus": [200, 404]
     }
   ]

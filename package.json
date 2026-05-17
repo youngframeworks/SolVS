@@ -21,6 +21,7 @@
     "fleet:proposal": "python3 scripts/proposal_pack.py --title \"Manual Proposal\" --task \"manual review\"",
     "fleet:proposal:badges": "python3 scripts/provider_badges.py --proposal runtime/reports/proposal_latest.md",
     "fleet:execute": "python3 scripts/route_task.py --task \"review security hardening\" --execute --write-summary",
-    "fleet:validate": "bash scripts/validate.sh"
+    "fleet:validate": "bash scripts/validate.sh",
+    "fleet:check": "bash scripts/check_prereqs.sh"
   }
 }
