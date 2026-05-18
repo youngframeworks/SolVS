@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Check .vscode/agents duplicates
+        run: bash scripts/check_no_vscode_agents_duplicates.sh
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -78,6 +80,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Check .vscode/agents duplicates
+        run: bash scripts/check_no_vscode_agents_duplicates.sh
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
