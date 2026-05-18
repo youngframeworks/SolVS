@@ -19,7 +19,7 @@ case "$status" in
     echo "install docs: https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli"
     ;;
   12)
-    echo "copilot-cli doctor: auth-required"
+    echo "copilot-cli doctor: auth-required"COPILOT_OFFLINE=true
     echo "run interactive sign-in/configuration for standalone Copilot CLI"
     ;;
   *)

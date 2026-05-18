@@ -1,0 +1,28 @@
+{
+  "oci_vms": [
+    {
+      "name": "SolOS Main",
+      "public_ip": "130.162.196.147",
+      "private_ip": "10.0.0.119",
+      "shape": "VM.Standard.A1.Flex 4 vCPU / 24GB (ARM)",
+      "ssh_pub_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGNrV9qJ8sAs3AVpR2EjmaeglY6joJJHpDE7ty5DBaNS young@aistudio",
+      "note": "SolOS-Main / SSH"
+    },
+    {
+      "name": "SolOS Node 1",
+      "public_ip": "169.224.230.139",
+      "private_ip": "10.0.0.143",
+      "shape": "VM.Standard.A1.Flex 4 vCPU / 24GB (ARM)",
+      "ssh_pub_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFzoFGi0xlqMp8wolCcV87mCR7rC6d9SbhE6448pD+Dz solos-node-1",
+      "note": "SolOS-Node-1 / SSH"
+    },
+    {
+      "name": "SolOS Node 2",
+      "public_ip": "152.69.188.3",
+      "private_ip": "10.0.0.213",
+      "shape": "VM.Standard.A1.Flex 4 vCPU / 24GB (ARM)",
+      "ssh_pub_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOS6fZvFLl4v3g95NjN61v7L08dzESQX9CerBY3IBsMK solos-node-2",
+      "note": "SolOS-Node-2 / SSH"
+    }
+  ]
+}
