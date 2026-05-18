@@ -16,11 +16,22 @@ fi
 
 CLI_WRAPPER="bash scripts/copilot_with_agents.sh"
 
-echo "+ Running: $CLI_WRAPPER --agent SolManager -p \"ping\""
-if $CLI_WRAPPER --agent SolManager -p "ping"; then
-  echo "Copilot wrapper returned success. Agent invocation likely discovered."
-  exit 0
-else
-  echo "Copilot wrapper returned non-zero." >&2
-  exit 1
-fi
+echo "+ Running: $CLI_WRAPPER --agent SolManager -p \"ping\" --output-format json"
+out="$($CLI_WRAPPER --agent SolManager -p "ping" --output-format json 2>&1 || true)"
+echo "$out"
+
+# Look for a JSON agent field such as: "agent":"SolManager"
+python3 - <<'PY'
+import sys, re
+s = sys.stdin.read()
+m = re.search(r'"agent"\s*:\s*"([^"]+)"', s)
+if m and m.group(1) == 'SolManager':
+    print('Found agent: SolManager')
+    sys.exit(0)
+else:
+    print('Agent marker not found in output', file=sys.stderr)
+    sys.exit(2)
+PY <<EOF
+$out
+EOF
+
