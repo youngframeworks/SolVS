@@ -405,3 +405,6 @@ To enable agent discovery tests in CI, add these secrets in your repository sett
 3. Open a PR or push to `main` to trigger the workflow.
 
 If you'd like, I can add a small `docs/CI_SECRETS.md` explaining recommended secret scopes and a sample GitHub Actions secrets policy.
+
+### Copilot CLI Offline Mode
+See the full instructions in [docs/COPILOT_OFFLINE.md](docs/COPILOT_OFFLINE.md) for running the Copilot CLI and validation scripts in offline/local mode using Foundry Local.
