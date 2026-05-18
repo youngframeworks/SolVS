@@ -24,7 +24,7 @@ echo "$out"
 tmpfile="/tmp/agents_discovery_out.$$"
 printf "%s" "$out" > "$tmpfile"
 
-python3 - <<PY
+python3 - "$tmpfile" <<PY
 import sys, re
 path = sys.argv[1]
 with open(path, 'r', encoding='utf-8') as fh:
