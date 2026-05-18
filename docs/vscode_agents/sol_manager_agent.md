@@ -1,4 +1,4 @@
-# Agent: SolManager
+# Agent: SolManager (VS Code copy)
 
 Cloud-compatible orchestrator profile for local VS Code execution.
 

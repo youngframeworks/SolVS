@@ -1,4 +1,4 @@
-# Workflow: self_evolve
+# Workflow: self_evolve (copied from .vscode)
 
 ## Purpose
 Proposal-first optimization of routing policies.
