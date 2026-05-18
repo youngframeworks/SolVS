@@ -20,23 +20,26 @@ echo "+ Running: $CLI_WRAPPER --agent SolManager -p \"ping\" --output-format jso
 out="$($CLI_WRAPPER --agent SolManager -p "ping" --output-format json 2>&1 || true)"
 echo "$out"
 
-# Accept either a JSON agent field such as: "agent":"SolManager"
-# or a local/offline hint message from the wrapper so developers can run
-# this test in pure-offline environments without failing CI.
-printf "%s" "$out" | python3 - <<'PY'
+# Write output to a temp file to avoid issues with stderr/stdout pipes.
+tmpfile="/tmp/agents_discovery_out.$$"
+printf "%s" "$out" > "$tmpfile"
+
+python3 - <<PY
 import sys, re
-s = sys.stdin.read()
+path = sys.argv[1]
+with open(path, 'r', encoding='utf-8') as fh:
+  s = fh.read()
+# Look for JSON agent field
 m = re.search(r'"agent"\s*:\s*"([^"]+)"', s)
 if m and m.group(1) == 'SolManager':
-    print('Found agent: SolManager')
-    sys.exit(0)
-
-# Common offline/provider hints (tolerate for local development)
+  print('Found agent: SolManager')
+  sys.exit(0)
+# Accept common offline/provider hints
 if 'Offline mode' in s or 'BYOK providers' in s or 'local model provider' in s:
-    print('Offline/provider hint detected; accepting for local dev')
-    sys.exit(0)
-
+  print('Offline/provider hint detected; accepting for local dev')
+  sys.exit(0)
 print('Agent marker not found in output and no offline hint present', file=sys.stderr)
 sys.exit(2)
 PY
+rm -f "$tmpfile"
 
