@@ -25,5 +25,6 @@
     "fleet:check": "bash scripts/check_prereqs.sh"
     "copilot:agents": "bash scripts/copilot_with_agents.sh",
     "copilot:agents:solmanager": "bash scripts/copilot_with_agents.sh --agent SolManager",
+    "test:agents": "python3 scripts/validate_agents.py && bash scripts/test_agents_discovery.sh",
   }
 }
