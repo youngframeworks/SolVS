@@ -18,6 +18,8 @@ tools:
 	- mcp-router
 	- self-heal
 	- self-evolve
+	- autopilot
+	- research
 permissions:
 	allow_tools:
 		- planner
@@ -33,6 +35,7 @@ permissions:
 		- /etc/**
 examples:
 	- copilot: "bash scripts/copilot_with_agents.sh --agent SolManager -i \"review project architecture\""
+	- copilot-autopilot: "bash scripts/copilot_with_agents.sh --agent SolManager --autopilot -i \"perform architecture review\""
 
 # Agent: Fleet
 name: Fleet
@@ -44,6 +47,7 @@ tools:
 	- hooks-validator
 	- provider-prober
 	- proposal-builder
+	- research
 permissions:
 	allow_tools:
 		- router
@@ -59,6 +63,7 @@ permissions:
 		- localhost
 examples:
 	- copilot: "bash scripts/copilot_with_agents.sh --agent Fleet -i \"route task: upgrade provider\""
+	- copilot-research: "bash scripts/copilot_with_agents.sh --agent Fleet --mode research -i \"investigate provider performance\""
 
 Notes:
 - Tune `permissions` to align with governance requirements. These metadata entries are used by local agent runners and by the Copilot CLI when it exposes available tools/permissions to the session.

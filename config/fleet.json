@@ -39,7 +39,7 @@
       "id": "SolManager",
       "role": "orchestrator",
       "provider": "foundry-local",
-      "tools": ["planner", "governance", "mcp-router", "self-heal", "self-evolve"]
+      "tools": ["planner", "governance", "mcp-router", "self-heal", "self-evolve", "autopilot", "research"]
     },
     {
       "id": "SolOSRouter",
@@ -70,7 +70,7 @@
       "id": "Fleet",
       "role": "operator",
       "provider": "foundry-local",
-      "tools": ["router", "hooks-validator", "provider-prober", "proposal-builder"]
+      "tools": ["router", "hooks-validator", "provider-prober", "proposal-builder", "research"]
     }
   ]
 }

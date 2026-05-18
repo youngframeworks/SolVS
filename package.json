@@ -28,5 +28,8 @@
     "test:agents": "python3 scripts/validate_agents.py && bash scripts/test_agents_discovery.sh"
     ,
     "test:ci": "pytest -q"
+    ,
+    "copilot:solmanager:autopilot": "bash scripts/run_solmanager_autopilot.sh",
+    "copilot:fleet:research": "bash scripts/run_fleet_research.sh"
   }
 }
