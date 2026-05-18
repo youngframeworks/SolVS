@@ -22,9 +22,9 @@
     "fleet:proposal:badges": "python3 scripts/provider_badges.py --proposal runtime/reports/proposal_latest.md",
     "fleet:execute": "python3 scripts/route_task.py --task \"review security hardening\" --execute --write-summary",
     "fleet:validate": "bash scripts/validate.sh",
-    "fleet:check": "bash scripts/check_prereqs.sh"
+    "fleet:check": "bash scripts/check_prereqs.sh",
     "copilot:agents": "bash scripts/copilot_with_agents.sh",
     "copilot:agents:solmanager": "bash scripts/copilot_with_agents.sh --agent SolManager",
-    "test:agents": "python3 scripts/validate_agents.py && bash scripts/test_agents_discovery.sh",
+    "test:agents": "python3 scripts/validate_agents.py && bash scripts/test_agents_discovery.sh"
   }
 }
