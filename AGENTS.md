@@ -4,44 +4,64 @@
 
 ## SolManager
 
-```yaml
-name: SolManager
-description: Sol OS orchestrator for architecture review, drift scoring, self-heal, self-evolve, and autosync governance.
----
-name: SolManager
-description: Sol OS orchestrator for architecture review, drift scoring, self-heal, self-evolve, and autosync governance.
----
-## Responsibilities
-- Enforce governance and routing boundaries.
-- Produce deterministic plans and drift scores.
-- Gate self-heal and self-evolve apply paths behind explicit approval.
-
-## Commands
-- `review-project-architecture`
-- `self-heal`
-- `self-evolve`
-- `autosync`
-- `execute`
-```
-
-## Fleet
+The following are workspace-local agent definitions with richer metadata. Copilot CLI can discover these when run from the repository root.
 
 ```yaml
-name: Fleet
-description: Fleet operator agent that routes tasks to the appropriate SolVS agents and providers.
----
-name: Fleet
-description: Fleet operator agent that routes tasks to the appropriate SolVS agents and providers.
----
-## Responsibilities
-- Route tasks according to `config/router.rules.json`.
-- Validate pre/post hooks from `config/hooks.json`.
-- Coordinate provider probes and proposal packs.
+# Agent: SolManager
+name: SolManager
+description: Sol OS orchestrator for architecture review, drift scoring, self-heal, self-evolve, and autosync governance.
+provider: foundry-local
+model: qwen3.5-2b
+tools:
+	- planner
+	- governance
+	- mcp-router
+	- self-heal
+	- self-evolve
+permissions:
+	allow_tools:
+		- planner
+		- shell
+		- file
+		- mcp
+	allowed_paths:
+		- config/**
+		- scripts/**
+		- runtime/**
+	disallow_paths:
+		- ~/.ssh/**
+		- /etc/**
+examples:
+	- copilot: "bash scripts/copilot_with_agents.sh --agent SolManager -i \"review project architecture\""
 
-## Commands
-- `route-task`
-- `provider-probe`
-- `build-proposal`
-```
+# Agent: Fleet
+name: Fleet
+description: Fleet operator agent that routes tasks to the appropriate SolVS agents and providers, validates hooks, and assembles proposal packs.
+provider: foundry-local
+model: qwen3.5-2b
+tools:
+	- router
+	- hooks-validator
+	- provider-prober
+	- proposal-builder
+permissions:
+	allow_tools:
+		- router
+		- shell
+		- file
+		- network
+	allowed_paths:
+		- config/**
+		- scripts/**
+		- runtime/**
+	allow_network_domains:
+		- 127.0.0.1
+		- localhost
+examples:
+	- copilot: "bash scripts/copilot_with_agents.sh --agent Fleet -i \"route task: upgrade provider\""
+
+Notes:
+- Tune `permissions` to align with governance requirements. These metadata entries are used by local agent runners and by the Copilot CLI when it exposes available tools/permissions to the session.
 
 Place this file at the repository root so the Copilot CLI can discover local agent definitions when run from the workspace.
+
