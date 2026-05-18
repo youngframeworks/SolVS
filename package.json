@@ -31,5 +31,6 @@
     ,
     "copilot:solmanager:autopilot": "bash scripts/run_solmanager_autopilot.sh",
     "copilot:fleet:research": "bash scripts/run_fleet_research.sh"
+    ,"copilot:parallel": "bash scripts/run_fleet_and_solmanager_parallel.sh"
   }
 }
