@@ -374,3 +374,34 @@ MIT — See LICENSE file for details
 **Default Provider:** 🟢 Foundry Local (Qwen 3.5 2B)  
 **Rate Limits:** ✅ None (100% local inference)  
 **Last Updated:** 2026-05-17
+
+## 📘 Usage Examples: Parallel Runner & CI
+
+### Parallel Runner (SolManager + Fleet)
+Run SolManager in `autopilot` and Fleet in `research` simultaneously and collect logs under `runtime/logs`:
+
+```bash
+# run both agents in parallel and capture logs
+bash scripts/run_fleet_and_solmanager_parallel.sh -i "perform architecture review"
+# or via npm
+npm run copilot:parallel -- -i "perform architecture review"
+```
+
+Notes:
+- Logs are written to `runtime/logs/parallel-<TIMESTAMP>/solmanager.log` and `fleet.log`.
+- The runner forwards any flags you pass to the underlying wrappers.
+
+### CI: GitHub Actions (what to expect)
+The included workflow (`.github/workflows/ci.yml`) runs validation, linters, and tests on pushes and PRs. An optional `agents` job will run `npm run test:agents` only when the repository has the following secrets configured:
+
+- `COPILOT_PROVIDER_BASE_URL` — base URL for the Copilot CLI provider (Foundry endpoint)
+- `COPILOT_BYOK_KEY` — BYOK key or equivalent secret for provider access (if required)
+
+To enable agent discovery tests in CI, add these secrets in your repository settings. The agents job will then execute the agent discovery and integration tests against your provider.
+
+### Quick CI setup (secrets)
+1. Go to your GitHub repo → Settings → Secrets → Actions.  
+2. Add `COPILOT_PROVIDER_BASE_URL` (e.g., `http://foundry.local:5272`) and `COPILOT_BYOK_KEY` if needed.  
+3. Open a PR or push to `main` to trigger the workflow.
+
+If you'd like, I can add a small `docs/CI_SECRETS.md` explaining recommended secret scopes and a sample GitHub Actions secrets policy.
